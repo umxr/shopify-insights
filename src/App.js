@@ -116,7 +116,7 @@ const App = () => {
     <Page title="Shopify Insights">
       <Layout>
         <Layout.Section>
-          <Card title="Shopify Templates" sectioned>
+          <Card title="Templates" sectioned>
             <Form onSubmit={handleSubmit}>
               <FormLayout>
                 <div>
@@ -216,7 +216,7 @@ const App = () => {
                   label="Cart"
                   type="text"
                 />
-                <Button disabled={disabled} submit>
+                <Button disabled={disabled} type="submit">
                   Run Audit
                 </Button>
               </FormLayout>
