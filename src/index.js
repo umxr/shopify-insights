@@ -2,19 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { AppProvider } from "@shopify/polaris";
 import enTranslations from "@shopify/polaris/locales/en.json";
-import WebFont from "webfontloader";
 
 import App from "./App";
 
 import reportWebVitals from "./reportWebVitals";
 
 import "@shopify/polaris/dist/styles.css";
-
-WebFont.load({
-  google: {
-    families: ["Open Sans:300,400,600,700", "sans-serif"],
-  },
-});
 
 ReactDOM.render(
   <React.StrictMode>
