@@ -8,25 +8,50 @@ import {
   Card,
   Button,
   InlineError,
+  Spinner,
+  Heading,
+  List,
 } from "@shopify/polaris";
+import run from "./api/run";
+import getCruxMetrics from "./api/getCruxMetrics";
+import getLighthouseMetrics from "./api/getLighthouseMetrics";
 
 const App = () => {
+  // Audit Loading State
+  const [auditLoading, setAuditLoading] = useState(false);
+
+  // Results Show State
+  const [results, setResults] = useState([]);
+
   // Home Page State
-  const [homePage, setHomepage] = useState("");
+  const [homePage, setHomepage] = useState("https://www.neomorganics.com/");
   const [homePageError, setHomePageError] = useState(false);
 
   // Product Page State
-  const [productPage, setProductPage] = useState("");
+  const [productPage, setProductPage] = useState(
+    "https://www.neomorganics.com/products/christmas-wish-essential-oil-blend-10ml"
+  );
   const [productPageError, setProductPageError] = useState(false);
 
   // Collection Page State
-  const [collectionPage, setCollectionPage] = useState("");
+  const [collectionPage, setCollectionPage] = useState(
+    "https://www.neomorganics.com/collections/bestsellers"
+  );
   const [collectionPageError, setCollectionPageError] = useState(false);
 
+  // List Collections Page State
   const [listCollectionsPage, setListCollectionsPage] = useState("");
+
+  // Blog Page State
   const [blogPage, setBlogPage] = useState("");
+
+  // Article Page State
   const [articlePage, setArticlePage] = useState("");
+
+  // Page State
   const [page, setPage] = useState("");
+
+  // Cart Page Start
   const [cartPage, setCartPage] = useState("");
 
   // Form Valid State
@@ -100,9 +125,36 @@ const App = () => {
   );
   const handlePageChange = useCallback((value) => setPage(value), []);
   const handleCartPageChange = useCallback((value) => setCartPage(value), []);
-  const handleSubmit = useCallback((event) => {
-    event.preventDefault();
-  }, []);
+  const handleSubmit = useCallback(
+    async (event) => {
+      event.preventDefault();
+      const urls = [
+        homePage,
+        productPage,
+        collectionPage,
+        listCollectionsPage,
+        blogPage,
+        articlePage,
+        page,
+        cartPage,
+      ].filter((n) => n);
+      setAuditLoading(true);
+      const response = await run(urls);
+      setAuditLoading(false);
+      setResults(response);
+      response.forEach((response) => console.log(response));
+    },
+    [
+      articlePage,
+      blogPage,
+      cartPage,
+      collectionPage,
+      homePage,
+      listCollectionsPage,
+      page,
+      productPage,
+    ]
+  );
 
   useEffect(() => {
     if (homePageError || productPageError || collectionPageError) {
@@ -111,6 +163,88 @@ const App = () => {
       setDisabled(false);
     }
   }, [setDisabled, homePageError, productPageError, collectionPageError]);
+
+  if (auditLoading) {
+    return (
+      <Page title="Shopify Insights">
+        <Layout>
+          <Layout.Section>
+            <Card title="Templates" sectioned>
+              <Spinner accessibilityLabel="Spinner" size="large" color="teal" />
+            </Card>
+          </Layout.Section>
+        </Layout>
+      </Page>
+    );
+  }
+
+  if (!auditLoading && results.length) {
+    return (
+      <Page title="Shopify Insights">
+        <Layout>
+          <Layout.Section>
+            {results.map((result, index) => {
+              const cruxMetrics = getCruxMetrics(result);
+              const lighthouseMetrics = getLighthouseMetrics(result);
+              return (
+                <Card
+                  key={result.id}
+                  title={`Page Tested: ${result.id}`}
+                  sectioned
+                >
+                  <div
+                    style={{
+                      marginBottom: "15px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        marginBottom: "5px",
+                      }}
+                    >
+                      <Heading>Chrome User Experience Report Results</Heading>
+                    </div>
+                    <List type="bullet">
+                      {Object.keys(lighthouseMetrics).map((metric, index) => {
+                        return (
+                          <List.Item key={index}>
+                            {metric} - {lighthouseMetrics[metric]}
+                          </List.Item>
+                        );
+                      })}
+                    </List>
+                  </div>
+
+                  <div
+                    style={{
+                      marginBottom: "15px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        marginBottom: "5px",
+                      }}
+                    >
+                      <Heading>Lighthouse Results</Heading>
+                    </div>
+                    <List type="bullet">
+                      {Object.keys(cruxMetrics).map((metric, index) => {
+                        return (
+                          <List.Item key={index}>
+                            {metric} - {cruxMetrics[metric]}
+                          </List.Item>
+                        );
+                      })}
+                    </List>
+                  </div>
+                </Card>
+              );
+            })}
+          </Layout.Section>
+        </Layout>
+      </Page>
+    );
+  }
 
   return (
     <Page title="Shopify Insights">
@@ -216,7 +350,7 @@ const App = () => {
                   label="Cart"
                   type="text"
                 />
-                <Button disabled={disabled} type="submit">
+                <Button disabled={disabled} submit>
                   Run Audit
                 </Button>
               </FormLayout>

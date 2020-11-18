@@ -6,15 +6,16 @@ const run = (urls) => {
     return fetch(query);
   });
 
-  Promise.all(requests).then((responses) =>
-    responses
-      .forEach((response) => {
-        console.log(`${response.url}: ${response.status}`);
-        return response;
-      })
-      .then((responses) => Promise.all(responses.map((r) => r.json())))
-      .then((res) => console.log(res))
-  );
+  return Promise.all(requests)
+    .then((responses) => {
+      // all responses are resolved successfully
+      for (let response of responses) {
+        console.log(`${response.url}: ${response.status}`); // shows 200 for every url
+      }
+
+      return responses;
+    })
+    .then((responses) => Promise.all(responses.map((r) => r.json())));
 };
 
 export default run;
