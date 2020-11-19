@@ -1,5 +1,5 @@
 const setUpQuery = (page) => {
-  const api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
+  const api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?key=AIzaSyAR37svq4BzE8HOaIiAg81u8RHo1pnzCX0";
   const parameters = {
     url: encodeURIComponent(page),
   };
