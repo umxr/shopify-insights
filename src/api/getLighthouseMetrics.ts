@@ -1,4 +1,6 @@
-const getLighthouseMetrics = (data) => {
+// TODO: Type Data
+
+const getLighthouseMetrics = (data: any) => {
   const lighthouseMetrics = {
     "First Contentful Paint":
       data.lighthouseResult.audits["first-contentful-paint"].displayValue,

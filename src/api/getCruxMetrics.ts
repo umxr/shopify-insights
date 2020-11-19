@@ -1,4 +1,6 @@
-const getCruxMetrics = (data) => {
+// TODO: Type Data
+
+const getCruxMetrics = (data: any) => {
   const cruxMetrics = {
     "First Contentful Paint":
       data.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS.category,

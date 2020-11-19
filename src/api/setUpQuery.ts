@@ -1,6 +1,10 @@
-const setUpQuery = (url, device) => {
+import { Devices } from "../config/types";
+
+const setUpQuery = (url: string, device: Devices) => {
   const api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?";
-  const parameters = {
+  const parameters: {
+    [key: string]: string | undefined;
+  } = {
     url: encodeURIComponent(url),
     key: process.env.REACT_APP_API_KEY,
     strategy: device,
