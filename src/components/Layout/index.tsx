@@ -1,7 +1,12 @@
 import { Helmet } from "react-helmet";
+import { ReactNode } from "react";
 import React from "react";
 
-const Layout = ({ children }) => {
+type Props = {
+  children: ReactNode;
+};
+
+const Layout = ({ children }: Props) => {
   return (
     <>
       <Helmet>

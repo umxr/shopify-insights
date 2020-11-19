@@ -1,6 +1,7 @@
 import setUpQuery from "./setUpQuery";
+import { Devices } from "../config/types";
 
-const run = (urls, device = "DESKTOP") => {
+const run = (urls: string[], device: Devices = Devices.Desktop) => {
   const requests = urls.map((url) => {
     const query = setUpQuery(url, device);
     return fetch(query);

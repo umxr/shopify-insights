@@ -1,7 +1,13 @@
 import { Select } from "@shopify/polaris";
 import { DEVICES } from "./constants";
+import React from "react";
 
-const DeviceSelector = ({ value, onChange }) => {
+type Props = {
+  value: string;
+  onChange: (selected: string, id: string) => void;
+};
+
+const DeviceSelector = ({ value, onChange }: Props) => {
   return (
     <Select
       label="Audit Device"

@@ -1,68 +1,73 @@
 import { useCallback, useEffect, useState } from "react";
 import {
-  Page,
-  Layout,
+  Banner,
+  Button,
+  Card,
   Form,
   FormLayout,
-  TextField,
-  Card,
-  Button,
-  InlineError,
-  Spinner,
   Heading,
+  InlineError,
+  Layout,
   List,
-  Banner,
+  Page,
+  Spinner,
+  TextField,
 } from "@shopify/polaris";
 import run from "./api/run";
 import getCruxMetrics from "./api/getCruxMetrics";
 import getLighthouseMetrics from "./api/getLighthouseMetrics";
 import DeviceSelector from "./components/DeviceSeletor";
+import { Devices } from "./config/types";
+import React from "react";
 
 const App = () => {
   // Device State
-  const [device, setDevice] = useState("DESKTOP");
+  const [device, setDevice] = useState<Devices>(Devices.Desktop);
 
   // Audit Loading State
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Results Show State
-  const [results, setResults] = useState(null);
+  // TODO: Type Results
+  const [results, setResults] = useState<any>(null);
 
   // Home Page State
-  const [homePage, setHomepage] = useState("");
-  const [homePageError, setHomePageError] = useState(false);
+  const [homePage, setHomepage] = useState<string>("");
+  const [homePageError, setHomePageError] = useState<boolean>(false);
 
   // Product Page State
-  const [productPage, setProductPage] = useState("");
-  const [productPageError, setProductPageError] = useState(false);
+  const [productPage, setProductPage] = useState<string>("");
+  const [productPageError, setProductPageError] = useState<boolean>(false);
 
   // Collection Page State
-  const [collectionPage, setCollectionPage] = useState("");
-  const [collectionPageError, setCollectionPageError] = useState(false);
+  const [collectionPage, setCollectionPage] = useState<string>("");
+  const [collectionPageError, setCollectionPageError] = useState<boolean>(
+    false
+  );
 
   // List Collections Page State
-  const [listCollectionsPage, setListCollectionsPage] = useState("");
+  const [listCollectionsPage, setListCollectionsPage] = useState<string>("");
 
   // Blog Page State
-  const [blogPage, setBlogPage] = useState("");
+  const [blogPage, setBlogPage] = useState<string>("");
 
   // Article Page State
-  const [articlePage, setArticlePage] = useState("");
+  const [articlePage, setArticlePage] = useState<string>("");
 
   // Page State
-  const [page, setPage] = useState("");
+  const [page, setPage] = useState<string>("");
 
   // Cart Page Start
-  const [cartPage, setCartPage] = useState("");
+  const [cartPage, setCartPage] = useState<string>("");
 
   // Form Valid State
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState<boolean>(false);
 
   // Device Handlers
   const handleDeviceChange = useCallback((value) => setDevice(value), []);
 
   // Home Page Handlers
-  const validateHomePage = (value) => {
+  const validateHomePage = (value: string) => {
     if (!value) {
       setHomePageError(true);
     } else {
@@ -81,7 +86,7 @@ const App = () => {
   };
 
   // Product Page Handlers
-  const validateProductPage = (value) => {
+  const validateProductPage = (value: string) => {
     if (!value) {
       setProductPageError(true);
     } else {
@@ -100,7 +105,7 @@ const App = () => {
   };
 
   // Collection Page Handlers
-  const validateCollectionPage = (value) => {
+  const validateCollectionPage = (value: string) => {
     if (!value) {
       setCollectionPageError(true);
     } else {
@@ -195,7 +200,8 @@ const App = () => {
       <Page title="Shopify Insights - Results">
         <Layout>
           <Layout.Section>
-            {results.map((result) => {
+            {/*TODO: Type Result*/}
+            {results.map((result: any) => {
               if (result.error) {
                 return (
                   <Card sectioned>
@@ -210,8 +216,12 @@ const App = () => {
                   </Card>
                 );
               }
-              const cruxMetrics = getCruxMetrics(result);
-              const lighthouseMetrics = getLighthouseMetrics(result);
+              const cruxMetrics: {
+                [key: string]: string;
+              } = getCruxMetrics(result);
+              const lighthouseMetrics: {
+                [key: string]: string;
+              } = getLighthouseMetrics(result);
               return (
                 <Card
                   key={result.id}
