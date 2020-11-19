@@ -24,19 +24,15 @@ const App = () => {
   const [results, setResults] = useState([]);
 
   // Home Page State
-  const [homePage, setHomepage] = useState("https://www.neomorganics.com/");
+  const [homePage, setHomepage] = useState("");
   const [homePageError, setHomePageError] = useState(false);
 
   // Product Page State
-  const [productPage, setProductPage] = useState(
-    "https://www.neomorganics.com/products/christmas-wish-essential-oil-blend-10ml"
-  );
+  const [productPage, setProductPage] = useState("");
   const [productPageError, setProductPageError] = useState(false);
 
   // Collection Page State
-  const [collectionPage, setCollectionPage] = useState(
-    "https://www.neomorganics.com/collections/bestsellers"
-  );
+  const [collectionPage, setCollectionPage] = useState("");
   const [collectionPageError, setCollectionPageError] = useState(false);
 
   // List Collections Page State
