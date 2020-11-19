@@ -11,17 +11,22 @@ import {
   Spinner,
   Heading,
   List,
+  Banner,
 } from "@shopify/polaris";
 import run from "./api/run";
 import getCruxMetrics from "./api/getCruxMetrics";
 import getLighthouseMetrics from "./api/getLighthouseMetrics";
+import DeviceSelector from "./components/DeviceSeletor";
 
 const App = () => {
+  // Device State
+  const [device, setDevice] = useState("DESKTOP");
+
   // Audit Loading State
-  const [auditLoading, setAuditLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Results Show State
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState(null);
 
   // Home Page State
   const [homePage, setHomepage] = useState("");
@@ -52,6 +57,9 @@ const App = () => {
 
   // Form Valid State
   const [disabled, setDisabled] = useState(false);
+
+  // Device Handlers
+  const handleDeviceChange = useCallback((value) => setDevice(value), []);
 
   // Home Page Handlers
   const validateHomePage = (value) => {
@@ -134,11 +142,10 @@ const App = () => {
         page,
         cartPage,
       ].filter((n) => n);
-      setAuditLoading(true);
-      const response = await run(urls);
-      setAuditLoading(false);
+      setLoading(true);
+      const response = await run(urls, device);
+      setLoading(false);
       setResults(response);
-      response.forEach((response) => console.log(response));
     },
     [
       articlePage,
@@ -149,6 +156,7 @@ const App = () => {
       listCollectionsPage,
       page,
       productPage,
+      device,
     ]
   );
 
@@ -160,7 +168,7 @@ const App = () => {
     }
   }, [setDisabled, homePageError, productPageError, collectionPageError]);
 
-  if (auditLoading) {
+  if (loading) {
     return (
       <Page title="Shopify Insights">
         <Layout>
@@ -174,12 +182,25 @@ const App = () => {
     );
   }
 
-  if (!auditLoading && results.length) {
+  if (!loading && results) {
     return (
       <Page title="Shopify Insights">
         <Layout>
           <Layout.Section>
-            {results.map((result, index) => {
+            {results.map((result) => {
+              if (result.error) {
+                return (
+                  <Card sectioned>
+                    <Banner
+                      title="Error"
+                      action={{ content: `Code: ${result.error.code}` }}
+                      status="critical"
+                    >
+                      <p>{result.error.message}</p>
+                    </Banner>
+                  </Card>
+                );
+              }
               const cruxMetrics = getCruxMetrics(result);
               const lighthouseMetrics = getLighthouseMetrics(result);
               return (
@@ -246,6 +267,9 @@ const App = () => {
     <Page title="Shopify Insights">
       <Layout>
         <Layout.Section>
+          <Card title="Devices" sectioned>
+            <DeviceSelector value={device} onChange={handleDeviceChange} />
+          </Card>
           <Card title="Templates" sectioned>
             <Form onSubmit={handleSubmit}>
               <FormLayout>

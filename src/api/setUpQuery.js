@@ -1,15 +1,18 @@
-const setUpQuery = (page) => {
-  const api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
+const setUpQuery = (url, device) => {
+  const api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?";
   const parameters = {
-    url: encodeURIComponent(page),
-    key: "AIzaSyCAKk7B5Mo-_z4G9LL_PtbbpqTot8JwV_I"
+    url: encodeURIComponent(url),
+    key: process.env.REACT_APP_API_KEY,
+    strategy: device,
   };
-  let query = `${api}?`;
-  let key;
-  for (key in parameters) {
-    query += `${key}=${parameters[key]}`;
-  }
-  console.log(query);
+  const query =
+    api +
+    Object.keys(parameters)
+      .map((key) => {
+        return `${key}=${parameters[key]}`;
+      })
+      .join("&");
+
   return query;
 };
 

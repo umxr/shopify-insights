@@ -8,18 +8,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import "@shopify/polaris/dist/styles.css";
-import { Helmet } from "react-helmet";
+import Layout from "./components/Layout";
 
 ReactDOM.render(
   <React.StrictMode>
     <AppProvider i18n={enTranslations}>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>Shopify Insights</title>
-        <meta name="description" content="Shopify Insights" />
-        <link rel="canonical" href="https://shopify-insights.netlify.app/" />
-      </Helmet>
-      <App />
+      <Layout>
+        <App />
+      </Layout>
     </AppProvider>
   </React.StrictMode>,
   document.getElementById("root")
