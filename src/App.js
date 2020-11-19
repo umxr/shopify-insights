@@ -160,6 +160,10 @@ const App = () => {
     ]
   );
 
+  const handleAuditReset = () => {
+    setResults(null);
+  };
+
   useEffect(() => {
     if (homePageError || productPageError || collectionPageError) {
       setDisabled(true);
@@ -173,9 +177,13 @@ const App = () => {
       <Page title="Shopify Insights">
         <Layout>
           <Layout.Section>
-            <Card title="Templates" sectioned>
+            <div
+              style={{
+                textAlign: "center",
+              }}
+            >
               <Spinner accessibilityLabel="Spinner" size="large" color="teal" />
-            </Card>
+            </div>
           </Layout.Section>
         </Layout>
       </Page>
@@ -184,7 +192,7 @@ const App = () => {
 
   if (!loading && results) {
     return (
-      <Page title="Shopify Insights">
+      <Page title="Shopify Insights - Results">
         <Layout>
           <Layout.Section>
             {results.map((result) => {
@@ -198,6 +206,7 @@ const App = () => {
                     >
                       <p>{result.error.message}</p>
                     </Banner>
+                    <Button onClick={handleAuditReset}>Reset Audit</Button>
                   </Card>
                 );
               }
