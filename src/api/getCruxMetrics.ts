@@ -1,6 +1,6 @@
-// TODO: Type Data
+import { PagespeedApiResponse } from "./types";
 
-const getCruxMetrics = (data: any) => {
+const getCruxMetrics = (data: PagespeedApiResponse) => {
   const cruxMetrics = {
     "First Contentful Paint":
       data.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS.category,

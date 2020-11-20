@@ -1,6 +1,6 @@
-// TODO: Type Data
+import { PagespeedApiResponse } from "./types";
 
-const getLighthouseMetrics = (data: any) => {
+const getLighthouseMetrics = (data: PagespeedApiResponse) => {
   const lighthouseMetrics = {
     "First Contentful Paint":
       data.lighthouseResult.audits["first-contentful-paint"].displayValue,

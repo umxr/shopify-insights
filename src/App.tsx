@@ -1,24 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
 import {
-  Banner,
   Button,
   Card,
   Form,
   FormLayout,
-  Heading,
   InlineError,
   Layout,
-  List,
   Page,
   Spinner,
   TextField,
 } from "@shopify/polaris";
 import run from "./api/run";
-import getCruxMetrics from "./api/getCruxMetrics";
-import getLighthouseMetrics from "./api/getLighthouseMetrics";
 import DeviceSelector from "./components/DeviceSeletor";
 import { Devices } from "./config/types";
 import React from "react";
+import AuditResults from "./components/AuditResults";
+import { PagespeedApiResponse } from "./api/types";
 
 const App = () => {
   // Device State
@@ -28,8 +25,7 @@ const App = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   // Results Show State
-  // TODO: Type Results
-  const [results, setResults] = useState<any>(null);
+  const [results, setResults] = useState<PagespeedApiResponse[] | null>(null);
 
   // Home Page State
   const [homePage, setHomepage] = useState<string>("");
@@ -196,90 +192,7 @@ const App = () => {
   }
 
   if (!loading && results) {
-    return (
-      <Page title="Shopify Insights - Results">
-        <Layout>
-          <Layout.Section>
-            {/*TODO: Type Result*/}
-            {results.map((result: any) => {
-              if (result.error) {
-                return (
-                  <Card sectioned>
-                    <Banner
-                      title="Error"
-                      action={{ content: `Code: ${result.error.code}` }}
-                      status="critical"
-                    >
-                      <p>{result.error.message}</p>
-                    </Banner>
-                    <Button onClick={handleAuditReset}>Reset Audit</Button>
-                  </Card>
-                );
-              }
-              const cruxMetrics: {
-                [key: string]: string;
-              } = getCruxMetrics(result);
-              const lighthouseMetrics: {
-                [key: string]: string;
-              } = getLighthouseMetrics(result);
-              return (
-                <Card
-                  key={result.id}
-                  title={`Page Tested: ${result.id}`}
-                  sectioned
-                >
-                  <div
-                    style={{
-                      marginBottom: "15px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        marginBottom: "5px",
-                      }}
-                    >
-                      <Heading>Chrome User Experience Report Results</Heading>
-                    </div>
-                    <List type="bullet">
-                      {Object.keys(lighthouseMetrics).map((metric, index) => {
-                        return (
-                          <List.Item key={index}>
-                            {metric} - {lighthouseMetrics[metric]}
-                          </List.Item>
-                        );
-                      })}
-                    </List>
-                  </div>
-
-                  <div
-                    style={{
-                      marginBottom: "15px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        marginBottom: "5px",
-                      }}
-                    >
-                      <Heading>Lighthouse Results</Heading>
-                    </div>
-                    <List type="bullet">
-                      {Object.keys(cruxMetrics).map((metric, index) => {
-                        return (
-                          <List.Item key={index}>
-                            {metric} - {cruxMetrics[metric]}
-                          </List.Item>
-                        );
-                      })}
-                    </List>
-                  </div>
-                </Card>
-              );
-            })}
-          </Layout.Section>
-        </Layout>
-      </Page>
-    );
+    return <AuditResults results={results} onReset={handleAuditReset} />;
   }
 
   return (
