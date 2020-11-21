@@ -6,7 +6,7 @@ const setUpQuery = (url: string, device: Devices) => {
     [key: string]: string | undefined;
   } = {
     url: encodeURIComponent(url),
-    key: process.env.REACT_APP_API_KEY,
+    key: process.env.API_KEY,
     strategy: device,
   };
   const query =

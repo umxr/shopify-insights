@@ -1,4 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { Devices } from "../config/types";
+import { PagespeedApiResponse } from "../config/types";
+import run from "../utils/run";
 import {
   Button,
   Card,
@@ -10,59 +13,28 @@ import {
   Spinner,
   TextField,
 } from "@shopify/polaris";
-import run from "./api/run";
-import DeviceSelector from "./components/DeviceSeletor";
-import { Devices } from "./config/types";
-import React from "react";
-import AuditResults from "./components/AuditResults";
-import { PagespeedApiResponse } from "./api/types";
+import AuditResults from "../components/AuditResults";
+import DeviceSelector from "..//components/DeviceSeletor";
 
-const App = () => {
-  // Device State
+const Home = () => {
   const [device, setDevice] = useState<Devices>(Devices.Desktop);
-
-  // Audit Loading State
   const [loading, setLoading] = useState<boolean>(false);
-
-  // Results Show State
   const [results, setResults] = useState<PagespeedApiResponse[] | null>(null);
-
-  // Home Page State
   const [homePage, setHomepage] = useState<string>("");
   const [homePageError, setHomePageError] = useState<boolean>(false);
-
-  // Product Page State
   const [productPage, setProductPage] = useState<string>("");
   const [productPageError, setProductPageError] = useState<boolean>(false);
-
-  // Collection Page State
   const [collectionPage, setCollectionPage] = useState<string>("");
   const [collectionPageError, setCollectionPageError] = useState<boolean>(
     false
   );
-
-  // List Collections Page State
   const [listCollectionsPage, setListCollectionsPage] = useState<string>("");
-
-  // Blog Page State
   const [blogPage, setBlogPage] = useState<string>("");
-
-  // Article Page State
   const [articlePage, setArticlePage] = useState<string>("");
-
-  // Page State
   const [page, setPage] = useState<string>("");
-
-  // Cart Page Start
   const [cartPage, setCartPage] = useState<string>("");
-
-  // Form Valid State
   const [disabled, setDisabled] = useState<boolean>(false);
-
-  // Device Handlers
   const handleDeviceChange = useCallback((value) => setDevice(value), []);
-
-  // Home Page Handlers
   const validateHomePage = (value: string) => {
     if (!value) {
       setHomePageError(true);
@@ -80,8 +52,6 @@ const App = () => {
   const handleHomePageFocus = () => {
     validateHomePage(homePage);
   };
-
-  // Product Page Handlers
   const validateProductPage = (value: string) => {
     if (!value) {
       setProductPageError(true);
@@ -99,8 +69,6 @@ const App = () => {
   const handleProductPageFocus = () => {
     validateProductPage(productPage);
   };
-
-  // Collection Page Handlers
   const validateCollectionPage = (value: string) => {
     if (!value) {
       setCollectionPageError(true);
@@ -314,4 +282,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Home;

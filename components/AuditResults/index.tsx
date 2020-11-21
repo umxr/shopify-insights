@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Card, Heading, Layout, List, Page } from "@shopify/polaris";
-import getCruxMetrics from "../../api/getCruxMetrics";
-import getLighthouseMetrics from "../../api/getLighthouseMetrics";
+import getCruxMetrics from "../../utils/getCruxMetrics";
+import getLighthouseMetrics from "../../utils/getLighthouseMetrics";
 import AuditError from "../AuditError";
-import { PagespeedApiResponse } from "../../api/types";
+import { PagespeedApiResponse } from "../../config/types";
 
 type Props = {
   results: PagespeedApiResponse[];
