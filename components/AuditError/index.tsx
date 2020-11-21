@@ -13,11 +13,8 @@ type Props = {
 const AuditError = ({ error }: Props) => {
   return (
     <Card sectioned>
-      <Banner
-        title="Error"
-        action={{ content: `Code: ${error.code}` }}
-        status="critical"
-      >
+      <Banner title="Error" status="critical">
+        <p>{`Code: ${error.code}`}</p>
         <p>{error.message}</p>
       </Banner>
     </Card>

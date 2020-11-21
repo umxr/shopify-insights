@@ -1,4 +1,4 @@
-import setUpQuery from "./setUpQuery";
+import setUpQuery from "./setupQuery";
 import { Devices } from "../config/types";
 
 const run = (urls: string[], device: Devices = Devices.Desktop) => {

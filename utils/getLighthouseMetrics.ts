@@ -1,4 +1,4 @@
-import { PagespeedApiResponse } from "./types";
+import { PagespeedApiResponse } from "../config/types";
 
 const getLighthouseMetrics = (data: PagespeedApiResponse) => {
   const lighthouseMetrics = {

@@ -1,4 +1,4 @@
-import { PagespeedApiResponse } from "./types";
+import { PagespeedApiResponse } from "../config/types";
 
 const getCruxMetrics = (data: PagespeedApiResponse) => {
   const cruxMetrics = {

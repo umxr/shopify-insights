@@ -150,3 +150,8 @@ export type PagespeedApiLoadingExperienceV5 = {
   initial_url: string;
   origin_fallback: boolean;
 };
+
+export enum Devices {
+  "Desktop" = "DESKTOP",
+  "Mobile" = "MOBILE",
+}

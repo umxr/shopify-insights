@@ -1,6 +1,6 @@
-import { Helmet } from "react-helmet-async";
-import { ReactNode } from "react";
 import React from "react";
+import Head from "next/head";
+import { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
@@ -9,12 +9,12 @@ type Props = {
 const Layout = ({ children }: Props) => {
   return (
     <>
-      <Helmet>
+      <Head>
         <meta charSet="utf-8" />
         <title>Shopify Insights</title>
         <meta name="description" content="Shopify Insights" />
         <link rel="canonical" href="https://shopify-insights.netlify.app/" />
-      </Helmet>
+      </Head>
       {children}
     </>
   );
